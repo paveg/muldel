@@ -1,0 +1,16 @@
+version: '3'
+services:
+  db:
+    image: mysql:8.0
+    volumes:
+      - "muldel_dev_mysql-data:/var/lib/mysql/:delegated"
+      - "./docker/mysql/dev-init:/docker-entrypoint-initdb.d"
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_PASSWORD=root
+      - TZ=Japan
+volumes:
+  muldel_dev_mysql-data:
+    driver: local
