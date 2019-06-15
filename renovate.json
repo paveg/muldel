@@ -1,0 +1,75 @@
+{
+  "extends": [
+    "config:base",
+    ":preserveSemverRanges"
+  ],
+  "timezone": "Asia/Tokyo",
+  "schedule": [
+    "before 9am every weekday"
+  ],
+  "assignees": [
+    "paveg"
+  ],
+  "labels": [
+    "renovate"
+  ],
+  "prConcurrentLimit": 5,
+  "separateMultipleMajor": true,
+  "separateMajorMinor": true,
+  "separateMinorPatch": true,
+  "semanticCommitType": "dependencies",
+  "ignoreUnstable": true,
+  "circleci": {
+    "enabled": true
+  },
+  "docker": {
+    "enabled": false
+  },
+  "docker-compose": {
+    "enabled": false
+  },
+  "major": {
+    "automerge": false,
+    "labels": [
+      "renovate",
+      "major"
+    ]
+  },
+  "minor": {
+    "automerge": false,
+    "labels": [
+      "renovate",
+      "minor"
+    ]
+  },
+  "patch": {
+    "groupName": "all patch dependencies",
+    "automerge": true,
+    "labels": [
+      "renovate",
+      "patch"
+    ]
+  },
+  "digest": {
+    "automerge": false,
+    "labels": [
+      "renovate",
+      "digest"
+    ]
+  },
+  "pin": {
+    "automerge": false,
+    "labels": [
+      "renovate",
+      "pin"
+    ]
+  },
+  "lockFileMaintenance": {
+    "enabled": true,
+    "labels": [
+      "renovate",
+      "lockfileMaintenance"
+    ]
+  },
+  "enabled": true
+}
