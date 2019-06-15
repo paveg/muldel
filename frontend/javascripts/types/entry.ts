@@ -1,3 +1,3 @@
-export type Props = {
-    name?: string
+export interface Props {
+  name?: string;
 }

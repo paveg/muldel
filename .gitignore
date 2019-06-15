@@ -54,3 +54,4 @@ node_modules/
 
 # for javascripts
 public/javascripts/dist/
+yarn-error.log

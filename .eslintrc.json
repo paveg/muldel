@@ -6,9 +6,9 @@
     "prettier/@typescript-eslint"
   ],
   "plugins": [
-    "@typescript-eslint",
     "react",
-    "pretteier"
+    "prettier",
+    "@typescript-eslint"
   ],
   "parser": "@typescript-eslint/parser",
   "env": {
@@ -21,6 +21,7 @@
     "project": "./tsconfig.json"
   },
   "rules": {
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "@typescript-eslint/no-unused-vars": "off"
   }
 }
