@@ -15,6 +15,11 @@ gem 'sass-rails', '~> 5.0'
 gem 'selenium-webdriver'
 gem 'site_prism'
 gem 'webpacker'
+
+gem 'grape-swagger-rails'
+gem 'rack-cors'
+gem 'swagger-blocks'
+
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
@@ -53,6 +58,7 @@ end
 
 group :test do
   gem 'brakeman'
+  gem 'committee'
   gem 'factory_bot_rails'
   gem 'rspec'
   gem 'rspec-rails'
