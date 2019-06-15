@@ -3,13 +3,16 @@ require:
   - rubocop-performance
   - rubocop-rails
   - rubocop-rspec
+  - rubocop-thread_safety
 
 AllCops:
   Exclude:
     - 'vendor/**/*'
     - 'spec/fixtures/**/*'
+    - 'spec/factories/**/*'
     - 'tmp/**/*'
     - 'node_modules/**/*'
+    - 'db/**/*'
   TargetRubyVersion: 2.6
 
 Metrics/LineLength:
