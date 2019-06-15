@@ -10,6 +10,7 @@ AllCops:
     - 'spec/fixtures/**/*'
     - 'tmp/**/*'
     - 'node_modules/**/*'
+    - 'db/**/*'
   TargetRubyVersion: 2.6
 
 Metrics/LineLength:
