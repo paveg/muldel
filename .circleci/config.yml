@@ -128,6 +128,10 @@ jobs:
             tar zxf "yarn-${YARN_VERSION}.tar.gz"
             echo 'export PATH="$(pwd)/yarn-${YARN_VERSION}/bin:$PATH"' >> $BASH_ENV
       - run:
+          name: install dependencies
+          command: |
+            yarn
+      - run:
           name: lint check
           command: |
             yarn run lint
