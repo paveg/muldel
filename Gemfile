@@ -33,8 +33,6 @@ group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'codecov', require: false
   gem 'pry-byebug'
-  gem 'rspec'
-  gem 'rspec-rails'
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
@@ -54,7 +52,9 @@ group :development do
 end
 
 group :test do
+  gem 'brakeman'
   gem 'factory_bot_rails'
+  gem 'rspec'
   gem 'rspec-rails'
   gem 'rspec_junit_formatter'
 end

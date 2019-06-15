@@ -3,11 +3,13 @@ require:
   - rubocop-performance
   - rubocop-rails
   - rubocop-rspec
+  - rubocop-thread_safety
 
 AllCops:
   Exclude:
     - 'vendor/**/*'
     - 'spec/fixtures/**/*'
+    - 'spec/factories/**/*'
     - 'tmp/**/*'
     - 'node_modules/**/*'
     - 'db/**/*'
