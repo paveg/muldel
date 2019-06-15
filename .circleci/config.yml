@@ -1,0 +1,149 @@
+version: 2.1
+defaults: &defaults
+  working_directory: ~/repo
+  environment:
+    - CIRCLE_ARTIFACTS: "/tmp/test-results"
+    - BUNDLER_VERSION: 2.0.1
+executors:
+  default_container:
+    docker:
+      - image: circleci/ruby:2.6.3-node-browsers
+        environment:
+          RAILS_ENV: test
+          LANG: ja_JP.UTF-8
+          LC_ALL: C.UTF-8
+          LANGUAGE: ja_JP.UTF-8
+          TZ: "/usr/share/zoneinfo/Asia/Tokyo"
+          NVM_VERSION: 'v11.9.0'
+          YARN_VERSION: 'v1.13.0'
+      - image: circleci/mysql:8.0.16-ram
+        command: mysqld --default-authentication-plugin=mysql_native_password
+        environment:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_USER: mysql
+          MYSQL_PASSWORD: root
+          MYSQL_DATABASE: muldel_test
+          TZ: "/usr/share/zoneinfo/Asia/Tokyo"
+commands:
+  restore-and-save-cache:
+    steps:
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "Gemfile" }}-{{ checksum "Gemfile.lock" }}
+            - v1-dependencies-
+      - run:
+          name: configure bundler
+          command: gem install bundler
+      - run:
+          name: install dependencies
+          command: |
+            bundle install --jobs=4 --quiet --retry=3 --path vendor/bundle --frozen
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+          key: v1-dependencies-{{ checksum "Gemfile" }}-{{ checksum "Gemfile.lock" }}
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+jobs:
+  prepare:
+    <<: *defaults
+    parallelism: 1
+    executor: default_container
+    steps:
+      - checkout
+      - restore-and-save-cache
+  rspec:
+    <<: *defaults
+    executor: default_container
+    steps:
+      - attach_workspace:
+          at: .
+      - restore-and-save-cache
+      - run:
+          name: wait for Database
+          command: dockerize -wait tcp://localhost:3306 -timeout 1m
+      - run:
+          name: db:build
+          command: |
+            bundle exec rake db:create
+            bundle exec rake db:migrate
+      - run:
+          name: run tests
+          command: |
+            mkdir ${CIRCLE_ARTIFACTS}
+            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
+            bundle exec rspec --format progress \
+                            --format RspecJunitFormatter \
+                            --out $CIRCLE_ARTIFACTS/rspec.xml \
+                            $TEST_FILES
+          after_success:
+            - command: bash <(curl -fs https://codecov.io/bash) -t ${CODECOV_TOKEN}
+      - store_test_results:
+          path: ${CIRCLE_ARTIFACTS}
+      - store_artifacts:
+          path: ${CIRCLE_ARTIFACTS}
+          destination: test-results
+  rubocop:
+    <<: *defaults
+    executor: default_container
+    parallelism: 1
+    steps:
+      - attach_workspace:
+          at: .
+      - restore-and-save-cache
+      - run:
+          name: exec rubocop
+          command: |
+            bundle exec rubocop
+  brakeman:
+    <<: *defaults
+    executor: default_container
+    parallelism: 1
+    steps:
+      - attach_workspace:
+          at: .
+      - restore-and-save-cache
+      - run:
+          name: exec brakeman
+          command: |
+            bundle exec brakeman -A -w1 -z
+  front-lint:
+    <<: *defaults
+    executor: default_container
+    parallelism: 1
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: setup node and yarn
+          command: |
+            git clone git://github.com/creationix/nvm.git ~/.nvm
+            source ~/.nvm/nvm.sh
+            nvm install ${NVM_VERSION}
+            nvm alias default ${NVM_VERSION}
+            echo "source ~/.nvm/nvm.sh" >> $BASH_ENV
+            wget "https://github.com/yarnpkg/yarn/releases/download/${YARN_VERSION}/yarn-${YARN_VERSION}.tar.gz"
+            tar zxf "yarn-${YARN_VERSION}.tar.gz"
+            echo 'export PATH="$(pwd)/yarn-${YARN_VERSION}/bin:$PATH"' >> $BASH_ENV
+      - run:
+          name: lint check
+          command: |
+            yarn run lint
+workflows:
+  integration:
+    jobs:
+      - prepare
+      - rspec:
+          requires:
+            - prepare
+      - rubocop:
+          requires:
+            - prepare
+      - brakeman:
+          requires:
+            - prepare
+      - front-lint:
+          requires:
+            - prepare
