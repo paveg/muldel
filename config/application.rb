@@ -11,5 +11,8 @@ Bundler.require(*Rails.groups)
 module Muldel
   class Application < Rails::Application
     config.load_defaults 5.2
+    config.generators do |generator|
+      generator.test_framework :rspec
+    end
   end
 end

@@ -24,3 +24,16 @@ Style/Documentation:
 Style/MixinUsage:
   Exclude:
     - 'bin/**/*'
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+
+RSpec/MultipleExpectations:
+  Max: 10
+
+RSpec/NestedGroups:
+  Max: 5
+
+RSpec/ImplicitSubject:
+  Enabled: false

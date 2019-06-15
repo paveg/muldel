@@ -14,6 +14,8 @@ if ENV['CI'] # Add codecov setting
   SimpleCov.formatter = SimpleCov::Formatter::Codecov
 end
 
+require 'pry'
+
 RSpec.configure do |config|
   config.define_derived_metadata do |meta|
     meta[:aggregate_failures] = true unless meta.key?(:aggregate_failures)
