@@ -29,6 +29,9 @@ Metrics/BlockLength:
   Exclude:
     - 'spec/**/*'
 
+Metrics/MethodLength:
+  Max: 20
+
 RSpec/MultipleExpectations:
   Max: 10
 
@@ -36,4 +39,7 @@ RSpec/NestedGroups:
   Max: 5
 
 RSpec/ImplicitSubject:
+  Enabled: false
+
+RSpec/NamedSubject:
   Enabled: false
