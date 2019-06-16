@@ -4,6 +4,6 @@ Rails.application.routes.draw do
   root to: 'home#index'
 
   get 'api-docs', to: 'api_docs#index'
-  get '/delivery_companies', to: 'delivery_companies#index'
-  # mount GrapeSwaggerRails::Engine => '/swagger'
+  get '/delivery_companies', to: 'apis/v1/delivery_companies#index'
+  mount GrapeSwaggerRails::Engine => '/swagger'
 end
