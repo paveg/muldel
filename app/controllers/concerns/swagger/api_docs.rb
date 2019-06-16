@@ -23,7 +23,7 @@ module Swagger
         extend Swagger::Parameters
       end
       SWAGGERD_CLASSES = [
-        Apis::V1::DeliveryCompany,
+        DeliveryCompany,
         Apis::V1::DeliveryCompaniesController,
         self
       ].freeze

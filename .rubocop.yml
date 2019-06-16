@@ -40,3 +40,6 @@ RSpec/NestedGroups:
 
 RSpec/ImplicitSubject:
   Enabled: false
+
+RSpec/NamedSubject:
+  Enabled: false
