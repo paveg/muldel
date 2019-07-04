@@ -21,6 +21,10 @@ module.exports = (_, argv) => {
         devtool: isProduction ? "source-map" : "inline-source-map",
         resolve: {
             extensions: [".ts", ".tsx", ".js"],
+            modules: [
+                path.resolve(__dirname),
+                path.join('node_modules')
+            ],
             alias: {
                 '@js': path.resolve(__dirname, './frontend/javascripts'),
                 '@css': path.resolve(__dirname, './frontend/stylesheets')

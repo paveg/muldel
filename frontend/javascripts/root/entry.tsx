@@ -1,12 +1,11 @@
 import * as React from "react";
 import ReactDOM from "react-dom";
-import { Props } from "../types/entry";
+import MainContainer from "@js/components/MainContainer";
 
-const Element = (props: Props) => <h1>Muldel {props.name}!</h1>;
+const element = (
+  <div className="App">
+    <MainContainer />
+  </div>
+);
 
-document.addEventListener("DOMContentLoaded", () => {
-  return ReactDOM.render(
-    <Element name="React" />,
-    document.getElementById("app")
-  );
-});
+ReactDOM.render(element, document.getElementById("app"));
