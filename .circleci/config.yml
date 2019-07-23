@@ -18,7 +18,7 @@ executors:
           TZ: "/usr/share/zoneinfo/Asia/Tokyo"
           NVM_VERSION: 'v11.9.0'
           YARN_VERSION: 'v1.13.0'
-      - image: circleci/mysql:8.0.16-ram
+      - image: circleci/mysql:8.0.17-ram
         command: mysqld --default-authentication-plugin=mysql_native_password
         environment:
           MYSQL_ROOT_PASSWORD: root
