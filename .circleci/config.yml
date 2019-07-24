@@ -5,7 +5,7 @@ defaults: &defaults
     - CIRCLE_ARTIFACTS: "/tmp/test-results"
     - BUNDLER_VERSION: 2.0.1
 orbs:
-  slack: circleci/slack@3.2.0
+  slack: circleci/slack@3.3.0
 executors:
   default_container:
     docker:
